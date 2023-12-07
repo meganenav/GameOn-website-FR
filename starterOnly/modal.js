@@ -18,7 +18,14 @@ let lastName = document.getElementById("last");
 let email = document.getElementById("email");
 let birthdate = document.getElementById("birthdate");
 let quantity = document.getElementById("quantity");
-let formReserve=document.getElementById("form-reserve");
+let location1 = document.getElementById("location1");
+let location2 = document.getElementById("location2");
+let location3 = document.getElementById("location3");
+let location4 = document.getElementById("location4");
+let location5 = document.getElementById("location5");
+let location6 = document.getElementById("location6");
+let checkbox1 = document.getElementById("checkbox1");
+let formReserve = document.getElementById("form-reserve");
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -67,6 +74,32 @@ quantity.addEventListener("input", (event) => {
   checkQuantity();
 });
 
+// Event change location 1 to 6 and verification
+location1.addEventListener("change", (event) => {
+  checkLocation();
+});
+location2.addEventListener("change", (event) => {
+  checkLocation();
+});
+location3.addEventListener("change", (event) => {
+  checkLocation();
+});
+location4.addEventListener("change", (event) => {
+  checkLocation();
+});
+location5.addEventListener("change", (event) => {
+  checkLocation();
+});
+location6.addEventListener("change", (event) => {
+  checkLocation();
+});
+
+//Event change checkbox1 and verification
+checkbox1.addEventListener("change", (event) => {
+  checkCheckbox1();
+});
+
+
 // submit form 
 function submitForm() {
   let verifications=validate();
@@ -94,51 +127,81 @@ function validate() {
 
 // Check firstname with minimum 2 characters
 function checkFirstName() {
-  let firstName = document.getElementById("first").value;
-  if(firstName==='' || firstName.length<2) {
+  let firstNameValue = document.getElementById("first").value;
+  let firstNameForm = document.getElementById("firstNameForm");
+  if(firstNameValue.length<2) {
+    firstNameForm.setAttribute("data-error-visible", "true");
+    firstNameForm.setAttribute("data-error", "Veuillez indiquer au minimum deux caractères");
     return false;
+  }
+  else{
+    firstNameForm.removeAttribute("data-error-visible");
   }
   return true;
 }
 
 // Check lastname with minimum 2 characters
 function checkLastName() {
-  let lastName = document.getElementById("last").value;
-  if(lastName==='' || lastName.length<2) {
+  let lastNameValue = document.getElementById("last").value;
+  let lastNameForm = document.getElementById("lastNameForm");
+  if(lastNameValue.length<2) {
+    lastNameForm.setAttribute("data-error-visible", "true");
+    lastNameForm.setAttribute("data-error", "Veuillez indiquer au minimum deux caractères");
     return false;
+  }
+  else{
+    lastNameForm.removeAttribute("data-error-visible");
   }
   return true;
 }
 
 // Check email format 
 function checkEmail() {
-  let email = document.getElementById("email").value;
+  let emailValue = document.getElementById("email").value;
+  let emailForm = document.getElementById("emailForm");
   let regex = new RegExp("^[a-z0-9\._-]+@[a-z0-9\._-]+\\.[a-z0-9\._-]+");
-  let result = regex.test(email);
-  if(email===''||result ===false) {
+  let result = regex.test(emailValue);
+  if(result ===false) {
+    emailForm.setAttribute("data-error-visible", "true");
+    emailForm.setAttribute("data-error", "Veuillez entrer un email valide");
     return false;
+  }
+  else{
+    emailForm.removeAttribute("data-error-visible");
   }
   return true;
 }
 
 // Check birthdate format
 function checkBirthdate() {
-  let birthdate = document.getElementById("birthdate").value;
+  let birthdateValue = document.getElementById("birthdate").value;
+  let birthdateForm = document.getElementById("birthdateForm");
   let regex = new RegExp("^[0-9]+-[0-9]+-[0-9]+");
-  let result = regex.test(birthdate);
-  if(birthdate==='' || result===false) {
+  let result = regex.test(birthdateValue);
+  if(result===false) {
+    birthdateForm.setAttribute("data-error-visible", "true");
+    birthdateForm.setAttribute("data-error", "Veuillez entrer une date de naissance valide");
     return false;
+  }
+  else{
+    birthdateForm.removeAttribute("data-error-visible");
   }
   return true;
 }
 
 // Check quantity format
 function checkQuantity() {
-  let quantity = document.getElementById("quantity").value;
+  let quantityValue = document.getElementById("quantity").value;
+  let quantityForm = document.getElementById("quantityForm");
   let regex = new RegExp("^[0-9]");
-  let result = regex.test(quantity);
-  if(quantity==='' || quantity===false) {
+  let result = regex.test(quantityValue);
+  if(result===false) {
+    quantityForm.setAttribute("data-error-visible", "true");
+    quantityForm.setAttribute("data-error", "Veuillez entrer une quantité valide");
     return false;
+  }
+  else{
+    quantityForm.removeAttribute("data-error-visible");
   }
   return true;
 }
@@ -146,14 +209,20 @@ function checkQuantity() {
 // Check location with one checked
 function checkLocation() {
   let locationList = document.querySelectorAll('input[name="location"]');
+  let locationForm = document.getElementById("locationForm");
   let locationChoice = "";
   for(let i = 0; i < locationList.length; i++) {
     if (locationList[i].checked) {
       locationChoice = locationList[i].value;
     }
   }
-  if(locationChoice===''){
+  if(locationChoice===''){    
+    locationForm.setAttribute("data-error-visible", "true");
+    locationForm.setAttribute("data-error", "Veuillez entrer une ville");
     return false;
+  }
+  else{
+    locationForm.removeAttribute("data-error-visible");
   }
   return true;
 }
@@ -161,8 +230,14 @@ function checkLocation() {
 // Check checkbox for agreement
 function checkCheckbox1() {
   let checkbox1 = document.getElementById("checkbox1").checked;
+  let agreementForm = document.getElementById("agreementForm");
   if(checkbox1!==true) {
+    agreementForm.setAttribute("data-error-visible", "true");
+    agreementForm.setAttribute("data-error", "Veuillez cocher la case pour les conditions d'utilisation");
     return false;
+  }
+  else{
+    agreementForm.removeAttribute("data-error-visible");
   }
   return true;
 }
