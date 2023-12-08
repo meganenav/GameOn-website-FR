@@ -47,6 +47,7 @@ function launchModal() {
 // close modal form
 function closeModal() {
   modalbg.style.display = "none";
+  removeFormSentMsg();
 }
 
 // Event input first name and verification
@@ -99,13 +100,25 @@ checkbox1.addEventListener("change", (event) => {
   checkCheckbox1();
 });
 
-
-// submit form 
+// submit form with message when sent and reset
 function submitForm() {
-  let verifications=validate();
+  let verifications = validate();
   if(verifications) {
-    let formReserve=document.getElementById("form-reserve");
+    let formReserve = document.getElementById("form-reserve");
+    let firstNameForm = document.getElementById("firstNameForm");
+    let divCompleteForm = document.createElement("div");
+    divCompleteForm.classList.add("formSent");
+    document.body.appendChild(divCompleteForm);
+    firstNameForm.prepend(divCompleteForm);
+    let divMsg = "Merci ! Vous avez bien envoyé le formulaire";
+    divCompleteForm.innerText = divMsg;
     formReserve.reset();
+  }
+}
+
+function removeFormSentMsg() {
+  if(document.querySelector(".formSent")) {
+    document.querySelector(".formSent").remove();
   }
 }
 
@@ -161,7 +174,7 @@ function checkEmail() {
   let emailForm = document.getElementById("emailForm");
   let regex = new RegExp("^[a-z0-9\._-]+@[a-z0-9\._-]+\\.[a-z0-9\._-]+");
   let result = regex.test(emailValue);
-  if(result ===false) {
+  if(result === false) {
     emailForm.setAttribute("data-error-visible", "true");
     emailForm.setAttribute("data-error", "Veuillez entrer un email valide");
     return false;
@@ -178,7 +191,7 @@ function checkBirthdate() {
   let birthdateForm = document.getElementById("birthdateForm");
   let regex = new RegExp("^[0-9]+-[0-9]+-[0-9]+");
   let result = regex.test(birthdateValue);
-  if(result===false) {
+  if(result === false) {
     birthdateForm.setAttribute("data-error-visible", "true");
     birthdateForm.setAttribute("data-error", "Veuillez entrer une date de naissance valide");
     return false;
@@ -195,7 +208,7 @@ function checkQuantity() {
   let quantityForm = document.getElementById("quantityForm");
   let regex = new RegExp("^[0-9]");
   let result = regex.test(quantityValue);
-  if(result===false) {
+  if(result === false) {
     quantityForm.setAttribute("data-error-visible", "true");
     quantityForm.setAttribute("data-error", "Veuillez entrer une quantité valide");
     return false;
@@ -216,7 +229,7 @@ function checkLocation() {
       locationChoice = locationList[i].value;
     }
   }
-  if(locationChoice===''){    
+  if(locationChoice === ''){    
     locationForm.setAttribute("data-error-visible", "true");
     locationForm.setAttribute("data-error", "Veuillez entrer une ville");
     return false;
@@ -231,7 +244,7 @@ function checkLocation() {
 function checkCheckbox1() {
   let checkbox1 = document.getElementById("checkbox1").checked;
   let agreementForm = document.getElementById("agreementForm");
-  if(checkbox1!==true) {
+  if(checkbox1 !== true) {
     agreementForm.setAttribute("data-error-visible", "true");
     agreementForm.setAttribute("data-error", "Veuillez cocher la case pour les conditions d'utilisation");
     return false;
