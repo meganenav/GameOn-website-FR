@@ -337,6 +337,9 @@ input[data-error]::after {
   cursor: pointer;
   border: 0;
 }
+.btnDisabled, .btnDisabled:hover {
+  background: grey;
+}
 /* custom select styles */
 .custom-select {
   position: relative;
@@ -521,7 +524,11 @@ footer {
     text-align: center;
   }
 }
-
+@media screen and (max-width: 1000px) {
+  .hero-headline {
+    font-size: 4.5rem;
+  }
+}
 @keyframes modalopen {
   from {
     opacity: 0;

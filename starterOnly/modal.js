@@ -116,6 +116,7 @@ function submitForm() {
   }
 }
 
+// remove message saying the form is sent
 function removeFormSentMsg() {
   if(document.querySelector(".formSent")) {
     document.querySelector(".formSent").remove();
@@ -142,13 +143,15 @@ function validate() {
 function checkFirstName() {
   let firstNameValue = document.getElementById("first").value;
   let firstNameForm = document.getElementById("firstNameForm");
-  if(firstNameValue.length<2) {
+  if(firstNameValue.length < 2) {
     firstNameForm.setAttribute("data-error-visible", "true");
     firstNameForm.setAttribute("data-error", "Veuillez indiquer au minimum deux caractères");
+    btnSubmitDisabled();
     return false;
   }
   else{
     firstNameForm.removeAttribute("data-error-visible");
+    btnSubmitNotDisabled();
   }
   return true;
 }
@@ -157,13 +160,15 @@ function checkFirstName() {
 function checkLastName() {
   let lastNameValue = document.getElementById("last").value;
   let lastNameForm = document.getElementById("lastNameForm");
-  if(lastNameValue.length<2) {
+  if(lastNameValue.length < 2) {
     lastNameForm.setAttribute("data-error-visible", "true");
     lastNameForm.setAttribute("data-error", "Veuillez indiquer au minimum deux caractères");
+    btnSubmitDisabled();
     return false;
   }
   else{
     lastNameForm.removeAttribute("data-error-visible");
+    btnSubmitNotDisabled();
   }
   return true;
 }
@@ -177,10 +182,12 @@ function checkEmail() {
   if(result === false) {
     emailForm.setAttribute("data-error-visible", "true");
     emailForm.setAttribute("data-error", "Veuillez entrer un email valide");
+    btnSubmitDisabled();
     return false;
   }
   else{
     emailForm.removeAttribute("data-error-visible");
+    btnSubmitNotDisabled();
   }
   return true;
 }
@@ -194,10 +201,12 @@ function checkBirthdate() {
   if(result === false) {
     birthdateForm.setAttribute("data-error-visible", "true");
     birthdateForm.setAttribute("data-error", "Veuillez entrer une date de naissance valide");
+    btnSubmitDisabled();
     return false;
   }
   else{
     birthdateForm.removeAttribute("data-error-visible");
+    btnSubmitNotDisabled();
   }
   return true;
 }
@@ -211,10 +220,12 @@ function checkQuantity() {
   if(result === false) {
     quantityForm.setAttribute("data-error-visible", "true");
     quantityForm.setAttribute("data-error", "Veuillez entrer une quantité valide");
+    btnSubmitDisabled();
     return false;
   }
   else{
     quantityForm.removeAttribute("data-error-visible");
+    btnSubmitNotDisabled();
   }
   return true;
 }
@@ -232,10 +243,12 @@ function checkLocation() {
   if(locationChoice === ''){    
     locationForm.setAttribute("data-error-visible", "true");
     locationForm.setAttribute("data-error", "Veuillez entrer une ville");
+    btnSubmitDisabled();
     return false;
   }
   else{
     locationForm.removeAttribute("data-error-visible");
+    btnSubmitNotDisabled();
   }
   return true;
 }
@@ -247,10 +260,26 @@ function checkCheckbox1() {
   if(checkbox1 !== true) {
     agreementForm.setAttribute("data-error-visible", "true");
     agreementForm.setAttribute("data-error", "Veuillez cocher la case pour les conditions d'utilisation");
+    btnSubmitDisabled();
     return false;
   }
   else{
     agreementForm.removeAttribute("data-error-visible");
+    btnSubmitNotDisabled();
   }
   return true;
+}
+
+// make the submit button disabled
+function btnSubmitDisabled() {
+  let btnSubmit = document.querySelector(".btn-submit");
+  btnSubmit.disabled = true;
+  btnSubmit.classList.add("btnDisabled");
+}
+
+// make the submit button not disabled
+function btnSubmitNotDisabled() {
+  let btnSubmit = document.querySelector(".btn-submit");
+  btnSubmit.disabled = false;
+  btnSubmit.classList.remove("btnDisabled");
 }
