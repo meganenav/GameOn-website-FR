@@ -14,7 +14,6 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
-  background-image: url("background.png");
   font-family: var(--font-default);
   font-size: 18px;
   max-width: 1300px;
@@ -215,13 +214,14 @@ input {
   display: block;
   margin-top: 7px;
   margin-bottom: 7px;
-  text-align: right;
+  text-align: left;
   line-height: 0.3;
   opacity: 0;
   transition: 0.3s;
 }
 .formData[data-error-visible="true"]::after {
   opacity: 1;
+  text-align: left;
 }
 .formData[data-error-visible="true"] .text-control {
   border: 2px solid #e54858;
@@ -486,6 +486,11 @@ footer {
   padding-right: 2vw;
   margin: 0 20px;
 }
+@media screen and (max-width: 1000px) {
+  .hero-headline {
+    font-size: 4.5rem;
+  }
+}
 @media screen and (max-width: 800px) {
   .hero-section {
     display: block;
@@ -494,7 +499,8 @@ footer {
   .hero-content {
     background: #fff;
     color: #000;
-    padding: 20px;
+    padding: 0;
+    min-width: 0;
   }
   .hero-content::after {
     content: unset;
@@ -524,9 +530,9 @@ footer {
     text-align: center;
   }
 }
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 400px) {
   .hero-headline {
-    font-size: 4.5rem;
+    font-size: 3.5rem;
   }
 }
 @keyframes modalopen {
