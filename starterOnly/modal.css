@@ -187,6 +187,19 @@ main {
   margin: 15px auto;
 }
 
+/* Confirmation modal */
+.confirm-msg .content {
+  margin: 0 auto;
+}
+
+.modal-confirm-body {
+  text-align: center;
+  font-size: 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
 label {
   font-family: var(--font-default);
   font-size: 17px;
@@ -300,7 +313,7 @@ input[data-error]::after {
   left: 21%;
   top: 19%;
 }
-.close {
+.close, .close-confirm {
   position: absolute;
   right: 15px;
   top: 15px;
@@ -311,7 +324,9 @@ input[data-error]::after {
   transform: scale(0.7);
 }
 .close:before,
-.close:after {
+.close:after,
+.close-confirm:before,
+.close-confirm:after {
   position: absolute;
   left: 15px;
   content: " ";
@@ -319,14 +334,17 @@ input[data-error]::after {
   width: 3px;
   background-color: #fff;
 }
-.close:before {
+.close:before,
+.close-confirm:before {
   transform: rotate(45deg);
 }
-.close:after {
+.close:after,
+.close-confirm:after {
   transform: rotate(-45deg);
 }
 .btn-submit,
-.btn-signup {
+.btn-signup, 
+.btn-close-confirm {
   background: #fe142f;
   display: block;
   margin: 0 auto;
@@ -337,6 +355,7 @@ input[data-error]::after {
   cursor: pointer;
   border: 0;
 }
+/* Disable submit button when input are false */
 .btnDisabled, .btnDisabled:hover {
   background: grey;
 }

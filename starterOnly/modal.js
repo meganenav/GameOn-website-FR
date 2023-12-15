@@ -26,12 +26,28 @@ let location5 = document.getElementById("location5");
 let location6 = document.getElementById("location6");
 let checkbox1 = document.getElementById("checkbox1");
 let formReserve = document.getElementById("form-reserve");
+const modalbgConfirm = document.querySelector(".confirm-msg");
+const closeConfirm = document.querySelector(".close-confirm");
+const btnCloseConfirm = document.querySelector(".btn-close-confirm");
+const modalConfirmBody = document.querySelector(".modal-confirm-body");
+const innerHeight = window.innerHeight;
+modalConfirmBody.style.height = innerHeight + "px";
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
 // close modal event
 closeBtn.forEach((btn) => btn.addEventListener("click", closeModal));
+
+//close modal confirmation
+btnCloseConfirm.addEventListener("click", (event) => {
+  closeModalConfirm();
+});
+
+//close modal confirmation
+closeConfirm.addEventListener("click", (event) => {
+  closeModalConfirm();
+});
 
 // lauch form submit
 formReserve.addEventListener("submit", (event) => {
@@ -47,7 +63,16 @@ function launchModal() {
 // close modal form
 function closeModal() {
   modalbg.style.display = "none";
-  removeFormSentMsg();
+}
+
+// launch modal confirmation
+function launchModalConfirm() {
+  modalbgConfirm.style.display = "block";
+}
+
+// close modal confirmation
+function closeModalConfirm() {
+  modalbgConfirm.style.display = "none";
 }
 
 // Event input first name and verification
@@ -104,22 +129,8 @@ checkbox1.addEventListener("change", (event) => {
 function submitForm() {
   let verifications = validate();
   if(verifications) {
-    let formReserve = document.getElementById("form-reserve");
-    let firstNameForm = document.getElementById("firstNameForm");
-    let divCompleteForm = document.createElement("div");
-    divCompleteForm.classList.add("formSent");
-    document.body.appendChild(divCompleteForm);
-    firstNameForm.prepend(divCompleteForm);
-    let divMsg = "Merci ! Vous avez bien envoyé le formulaire";
-    divCompleteForm.innerText = divMsg;
+    launchModalConfirm();
     formReserve.reset();
-  }
-}
-
-// remove message saying the form is sent
-function removeFormSentMsg() {
-  if(document.querySelector(".formSent")) {
-    document.querySelector(".formSent").remove();
   }
 }
 
@@ -177,7 +188,7 @@ function checkLastName() {
 function checkEmail() {
   let emailValue = document.getElementById("email").value;
   let emailForm = document.getElementById("emailForm");
-  let regex = new RegExp("^[a-z0-9\._-]+@[a-z0-9\._-]+\\.[a-z0-9\._-]+");
+  let regex = new RegExp("^[a-z0-9\._-]+@[a-z0-9\._-]+\\.[a-z0-9\._-]+$");
   let result = regex.test(emailValue);
   if(result === false) {
     emailForm.setAttribute("data-error-visible", "true");
@@ -196,15 +207,20 @@ function checkEmail() {
 function checkBirthdate() {
   let birthdateValue = document.getElementById("birthdate").value;
   let birthdateForm = document.getElementById("birthdateForm");
-  let regex = new RegExp("^[0-9]+-[0-9]+-[0-9]+");
-  let result = regex.test(birthdateValue);
+  let result = "";
+	if(isNaN(Date.parse(birthdateValue))) {
+    result = false;
+	}
+  else {
+    result = true;
+  }
   if(result === false) {
     birthdateForm.setAttribute("data-error-visible", "true");
     birthdateForm.setAttribute("data-error", "Veuillez entrer une date de naissance valide");
     btnSubmitDisabled();
     return false;
   }
-  else{
+  else {
     birthdateForm.removeAttribute("data-error-visible");
     btnSubmitNotDisabled();
   }
@@ -215,8 +231,14 @@ function checkBirthdate() {
 function checkQuantity() {
   let quantityValue = document.getElementById("quantity").value;
   let quantityForm = document.getElementById("quantityForm");
-  let regex = new RegExp("^[0-9]");
-  let result = regex.test(quantityValue);
+  const quantity = parseInt(quantityValue);
+  let result = "";
+  if(isNaN(quantity)) {
+    result = false;
+  }
+  else {
+    result = true;
+  }
   if(result === false) {
     quantityForm.setAttribute("data-error-visible", "true");
     quantityForm.setAttribute("data-error", "Veuillez entrer une quantité valide");
