@@ -18,12 +18,7 @@ let lastName = document.getElementById("last");
 let email = document.getElementById("email");
 let birthdate = document.getElementById("birthdate");
 let quantity = document.getElementById("quantity");
-let location1 = document.getElementById("location1");
-let location2 = document.getElementById("location2");
-let location3 = document.getElementById("location3");
-let location4 = document.getElementById("location4");
-let location5 = document.getElementById("location5");
-let location6 = document.getElementById("location6");
+let locationList = document.querySelectorAll('input[name="location"]');
 let checkbox1 = document.getElementById("checkbox1");
 let formReserve = document.getElementById("form-reserve");
 const modalbgConfirm = document.querySelector(".confirm-msg");
@@ -100,25 +95,8 @@ quantity.addEventListener("input", (event) => {
   checkQuantity();
 });
 
-// Event change location 1 to 6 and verification
-location1.addEventListener("change", (event) => {
-  checkLocation();
-});
-location2.addEventListener("change", (event) => {
-  checkLocation();
-});
-location3.addEventListener("change", (event) => {
-  checkLocation();
-});
-location4.addEventListener("change", (event) => {
-  checkLocation();
-});
-location5.addEventListener("change", (event) => {
-  checkLocation();
-});
-location6.addEventListener("change", (event) => {
-  checkLocation();
-});
+// Event change location and verification
+locationList.forEach((radio) => radio.addEventListener("change", checkLocation));
 
 //Event change checkbox1 and verification
 checkbox1.addEventListener("change", (event) => {
@@ -254,15 +232,9 @@ function checkQuantity() {
 
 // Check location with one checked
 function checkLocation() {
-  let locationList = document.querySelectorAll('input[name="location"]');
   let locationForm = document.getElementById("locationForm");
-  let locationChoice = "";
-  for(let i = 0; i < locationList.length; i++) {
-    if (locationList[i].checked) {
-      locationChoice = locationList[i].value;
-    }
-  }
-  if(locationChoice === ''){    
+  let locationChoice = document.querySelector('input[name="location"]:checked');
+  if(locationChoice === null) {    
     locationForm.setAttribute("data-error-visible", "true");
     locationForm.setAttribute("data-error", "Veuillez entrer une ville");
     btnSubmitDisabled();
