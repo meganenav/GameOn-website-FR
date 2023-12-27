@@ -35,20 +35,37 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 closeBtn.forEach((btn) => btn.addEventListener("click", closeModal));
 
 //close modal confirmation
-btnCloseConfirm.addEventListener("click", (event) => {
-  closeModalConfirm();
-});
+btnCloseConfirm.addEventListener("click", closeModalConfirm);
 
 //close modal confirmation
-closeConfirm.addEventListener("click", (event) => {
-  closeModalConfirm();
-});
+closeConfirm.addEventListener("click", closeModalConfirm);
 
 // lauch form submit
 formReserve.addEventListener("submit", (event) => {
   event.preventDefault();
   submitForm();
 });
+
+// Event input first name and verification
+firstName.addEventListener("input", checkFirstName);
+
+// Event input last name and verification
+lastName.addEventListener("input", checkLastName);
+
+// Event input email and verification
+email.addEventListener("input", checkEmail);
+
+// Event input birthdate and verification
+birthdate.addEventListener("input", checkBirthdate);
+
+// Event input quantity and verification
+quantity.addEventListener("input", checkQuantity);
+
+// Event change location and verification
+locationList.forEach((radio) => radio.addEventListener("change", checkLocation));
+
+//Event change checkbox1 and verification
+checkbox1.addEventListener("change", checkCheckbox1);
 
 // launch modal form
 function launchModal() {
@@ -70,39 +87,6 @@ function closeModalConfirm() {
   modalbgConfirm.style.display = "none";
 }
 
-// Event input first name and verification
-firstName.addEventListener("input", (event) => {
-  checkFirstName();
-});
-
-// Event input last name and verification
-lastName.addEventListener("input", (event) => {
-  checkLastName();
-});
-
-// Event input email and verification
-email.addEventListener("input", (event) => {
-  checkEmail();
-});
-
-// Event input birthdate and verification
-birthdate.addEventListener("input", (event) => {
-  checkBirthdate();
-});
-
-// Event input quantity and verification
-quantity.addEventListener("input", (event) => {
-  checkQuantity();
-});
-
-// Event change location and verification
-locationList.forEach((radio) => radio.addEventListener("change", checkLocation));
-
-//Event change checkbox1 and verification
-checkbox1.addEventListener("change", (event) => {
-  checkCheckbox1();
-});
-
 // submit form with message when sent and reset
 function submitForm() {
   let verifications = validate();
@@ -122,10 +106,7 @@ function validate() {
   let resultQuantity = checkQuantity();
   let resultLocation = checkLocation();
   let resultCheckbox1 = checkCheckbox1();
-  if(resultFirstName && resultLastName && resultEmail && resultBirthdate && resultQuantity && resultLocation && resultCheckbox1) {
-    return true;
-  }
-  return false;
+  return (resultFirstName && resultLastName && resultEmail && resultBirthdate && resultQuantity && resultLocation && resultCheckbox1);
 }
 
 // Check firstname with minimum 2 characters
@@ -168,7 +149,7 @@ function checkEmail() {
   let emailForm = document.getElementById("emailForm");
   let regex = new RegExp("^[a-z0-9\._-]+@[a-z0-9\._-]+\\.[a-z0-9\._-]+$");
   let result = regex.test(emailValue);
-  if(result === false) {
+  if(!result) {
     emailForm.setAttribute("data-error-visible", "true");
     emailForm.setAttribute("data-error", "Veuillez entrer un email valide");
     btnSubmitDisabled();
@@ -192,7 +173,7 @@ function checkBirthdate() {
   else {
     result = true;
   }
-  if(result === false) {
+  if(!result) {
     birthdateForm.setAttribute("data-error-visible", "true");
     birthdateForm.setAttribute("data-error", "Veuillez entrer une date de naissance valide");
     btnSubmitDisabled();
@@ -217,7 +198,7 @@ function checkQuantity() {
   else {
     result = true;
   }
-  if(result === false) {
+  if(!result) {
     quantityForm.setAttribute("data-error-visible", "true");
     quantityForm.setAttribute("data-error", "Veuillez entrer une quantité valide");
     btnSubmitDisabled();
@@ -251,7 +232,7 @@ function checkLocation() {
 function checkCheckbox1() {
   let checkbox1 = document.getElementById("checkbox1").checked;
   let agreementForm = document.getElementById("agreementForm");
-  if(checkbox1 !== true) {
+  if(!checkbox1) {
     agreementForm.setAttribute("data-error-visible", "true");
     agreementForm.setAttribute("data-error", "Veuillez cocher la case pour les conditions d'utilisation");
     btnSubmitDisabled();
