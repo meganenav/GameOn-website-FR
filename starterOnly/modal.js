@@ -40,12 +40,6 @@ btnCloseConfirm.addEventListener("click", closeModalConfirm);
 //close modal confirmation
 closeConfirm.addEventListener("click", closeModalConfirm);
 
-// lauch form submit
-formReserve.addEventListener("submit", (event) => {
-  event.preventDefault();
-  submitForm();
-});
-
 // Event input first name and verification
 firstName.addEventListener("input", checkFirstName);
 
@@ -87,17 +81,9 @@ function closeModalConfirm() {
   modalbgConfirm.style.display = "none";
 }
 
-// submit form with message when sent and reset
-function submitForm() {
-  let verifications = validate();
-  if(verifications) {
-    launchModalConfirm();
-    formReserve.reset();
-  }
-}
-
 // form verifications before submit
-function validate() {
+function validate(event) {  
+  event.preventDefault();
   //launch verifications functions
   let resultFirstName = checkFirstName();
   let resultLastName = checkLastName();
@@ -106,7 +92,13 @@ function validate() {
   let resultQuantity = checkQuantity();
   let resultLocation = checkLocation();
   let resultCheckbox1 = checkCheckbox1();
-  return (resultFirstName && resultLastName && resultEmail && resultBirthdate && resultQuantity && resultLocation && resultCheckbox1);
+  let verifications = resultFirstName && resultLastName && resultEmail && resultBirthdate && resultQuantity && resultLocation && resultCheckbox1;
+  if(verifications){
+    launchModalConfirm();
+    formReserve.reset();
+    return verifications;
+  }
+  return false;
 }
 
 // Check firstname with minimum 2 characters
@@ -167,7 +159,8 @@ function checkBirthdate() {
   let birthdateValue = document.getElementById("birthdate").value;
   let birthdateForm = document.getElementById("birthdateForm");
   let result = "";
-	if(isNaN(Date.parse(birthdateValue))) {
+  let today = Date.now();
+	if(isNaN(Date.parse(birthdateValue)) || Date.parse(birthdateValue) > today) {
     result = false;
 	}
   else {
@@ -192,10 +185,10 @@ function checkQuantity() {
   let quantityForm = document.getElementById("quantityForm");
   const quantity = parseInt(quantityValue);
   let result = "";
-  if(isNaN(quantity)) {
+  if(isNaN(quantity) || quantity > 99 || quantity < 0) {
     result = false;
   }
-  else {
+  else{
     result = true;
   }
   if(!result) {
